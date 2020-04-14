@@ -31,7 +31,18 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI, { useUnifiedTopology: true });
 
+// Handlebars
+app.engine("handlebars", exphbs({ 
+  defaultLayout: "main" 
+}));
+app.set("view engine", "handlebars");
+
 // Routes
+app.get('/', (req, res) => {
+  res.render('index', { 
+    title: 'Search & Comment' 
+  });
+});
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
@@ -120,10 +131,12 @@ app.post("/articles/:id", function(req, res) {
     });
 });
 
+require("./routes/htmlRoutes.js")(app);
+
 // Start the server
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");
 });
 
-
+module.exports = app;
 
