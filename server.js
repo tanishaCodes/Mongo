@@ -9,27 +9,27 @@ var cheerio  = require("cheerio");
 var axios    = require("axios");
 
 // REQUIRING MODELS
-var db   = require("./models");
+var db   = require("./models/api");
 
 var PORT = 3000;
-
-// INITIALIZE 
-var app  = express();
-//var logger = morgan("combined");
+let app  = express();
 
 // Configure middleware
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.Promise = Promise;
+const MONGODB_URI  = process.env.MONGODB_URI || "mongodb://localhost:27017/myMongodb";
+
+// Connect to the Mongo DB
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 // Use morgan logger for logging requests
-//app.use(logger("dev"));
+app.use(logger("dev"));
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-// Connect to the Mongo DB
-mongoose.connect(MONGODB_URI, { useUnifiedTopology: true });
+
 
 // Handlebars
 app.engine("handlebars", exphbs({ 
@@ -40,7 +40,7 @@ app.set("view engine", "handlebars");
 // Routes
 app.get('/', (req, res) => {
   res.render('index', { 
-    title: 'Search & Comment' 
+    title: 'Buzz-Worthy News!' 
   });
 });
 

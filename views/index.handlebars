@@ -1,66 +1,66 @@
 <div class="container">
   <div class="notification">
-<section class="hero is-warning is-medium">
-  <!-- Hero head: will stick at the top -->
-  <div class="hero-head">
-    <nav class="navbar">
-      <div class="container">
-        <div class="navbar-brand">
-          <a class="navbar-item">
-            <figure class="image is-128x128">
-              <img class="is-rounded" src="images/flyingbee.png">
-            </figure>
-          </a>
-          <span class="navbar-burger burger" data-target="navbarMenuHeroA">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </div>
-        <div id="navbarMenuHeroA" class="navbar-menu">
-          <div class="navbar-end">
-            <a class="navbar-item" href="/">
-              <button class="button is-warning is-medium is-rounded">
-                <span class="icon"><i class="fas fa-home"></i></span>
-              </button>
-            </a>
-            <a class="navbar-item">
-              <button class="button is-warning is-medium is-rounded">Account</button>
-            </a>
-            <a class="navbar-item" href="/login">
-              <button class="button is-warning is-light is-medium is-rounded">Log Out</button>
-            </a>
+    <section class="hero is-warning is-medium">
+      <!-- Hero head: will stick at the top -->
+      <div class="hero-head">
+        <nav class="navbar">
+          <div class="container">
+            <div class="navbar-brand">
+              <a class="navbar-item">
+                <figure class="image is-128x128">
+                  <img class="is-rounded" src="images/flyingbee.png">
+                </figure>
+              </a>
+              <span class="navbar-burger burger" data-target="navbarMenuHeroA">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+            <div id="navbarMenuHeroA" class="navbar-menu">
+              <div class="navbar-end">
+                <a class="navbar-item" href="/">
+                  <button class="button is-warning is-medium is-rounded">
+                    <span class="icon"><i class="fas fa-home"></i></span>
+                  </button>
+                </a>
+                <a class="navbar-item">
+                  <button class="button is-warning is-medium is-rounded">Account</button>
+                </a>
+                <a class="navbar-item" href="/login">
+                  <button class="button is-warning is-light is-medium is-rounded">Log Out</button>
+                </a>
+              </div>
+            </div>
           </div>
+        </nav>
+      </div>
+
+      <!-- Hero content: will be in the middle -->
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title">
+            Buzz-Worthy News!
+          </h1>
+          <h2 class="subtitle">
+            News Scraper
+          </h2>
         </div>
       </div>
-    </nav>
-  </div>
 
-  <!-- Hero content: will be in the middle -->
-  <div class="hero-body">
-    <div class="container has-text-centered">
-      <h1 class="title">
-        Buzz-Worthy News!
-      </h1>
-      <h2 class="subtitle">
-        News Scraper
-      </h2>
-    </div>
-  </div>
-
-  <!-- Hero footer: will stick at the bottom -->
-  <div class="hero-foot">
-    <nav class="tabs">
-      <div class="container">
-        <ul>
-          <li><a><button class="button is-warning is-medium is-rounded">Saved Articles</button></a></li>
-          <li><a><button class="button is-warning is-medium is-rounded">Scrape Articles</button></a></li>
-          <li><a><button class="button is-warning is-medium is-rounded">Clear Articles</button></a></li>
-        </ul>
+      <!-- Hero footer: will stick at the bottom -->
+      <div class="hero-foot">
+        <nav class="tabs">
+          <div class="container">
+            <ul>
+              <li><a href="/saved"></a>><button class="button is-warning is-medium is-rounded">Saved Articles</button></a></li>
+              <li><a href="/api/articles/scrape"></a>><button class="button is-warning is-medium is-rounded">Scrape Articles</button></a></li>
+              <li><a><button class="button is-warning is-medium is-rounded">Clear Articles</button></a></li>
+            </ul>
+          </div>
+        </nav>
       </div>
-    </nav>
-  </div>
-</section>
+    </section>
   </div>
 </div>
 
@@ -68,20 +68,19 @@
   <div class="notification">
     <br>
     <h1>Articles</h1>
-    <div id="articles-list" class="list-group">
-      {{#each examples}}
-      <div data-id="{{this.id}}" class="list-group-item notification is-danger">
-        <a href="./articles.js/{{this.id}}">{{this.text}}</a>
-        <button class="delete"></button>
-      </div>
-      {{/each}}
+    <div id="articles">
+      {{#each articles}}
+      <h4><a href="{{this.link}}">{{this.title}}</a></h4>
     </div>
-    <div id="note-list" class="list-group">
-      {{#each examples}}
-      <div data-id="{{this.id}}" class="list-group-item notification is-danger">
-        <a href="./Note.js/{{this.id}}">{{this.text}}</a>
-        <button class="delete"></button>
-      </div>
+    <div>
+      <form class="form-inline" action="/api/articles/save/{{this.id}}" method="POST">
+        <button type="submit" class="btn btn-success">Save Article</button>
+      </form>
+    </div>
+    <div>
+      <form class="form-inline" action="/api/articles/dismiss/{{this.id}}?_method=DELETE" method="POST">
+        <button type="submit" class="btn btn-warning">Remove Article</button>
+      </form>
       {{/each}}
     </div>
   </div>
@@ -90,7 +89,6 @@
 
 
 
-<script async defer src="//assets.pinterest.com/js/pinit.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="app.js"></script>
-
