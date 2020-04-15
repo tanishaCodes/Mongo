@@ -5,7 +5,15 @@ module.exports = function(app) {
   app.get("/", function(req, res) {
     db.Example.findAll({}).then(function(dbExamples) {
       res.render("index", {
-        msg: "Welcome to Search & Comment!",
+        msg: "Welcome to Buzz-worthy News!",
+        examples: dbExamples
+      });
+    });
+  });
+
+  app.get("/login", function(req, res) {
+    db.Example.findAll({}).then(function(dbExamples) {
+      res.render("login.handlebars", {
         examples: dbExamples
       });
     });
