@@ -1,35 +1,26 @@
-// PACKAGES
+// Packages
 var express  = require("express");
-var morgan   = require("morgan");
-var exphbs   = require("express-handlebars");
-var mongoose = require("mongoose");
+    logger   = require("morgan");
+    exphbs   = require("express-handlebars");
+    mongoose = require("mongoose");
+    cheerio  = require("cheerio");
+    axios    = require("axios");
 
-// SCRAPERS
-var cheerio  = require("cheerio");
-var axios    = require("axios");
-
-// REQUIRING MODELS
-var db   = require("./models/api");
-
+// Port and express setup
 var PORT = 3000;
-let app  = express();
+var app  = express();
 
 // Configure middleware
-mongoose.Promise = Promise;
-const MONGODB_URI  = process.env.MONGODB_URI || "mongodb://localhost:27017/myMongodb";
+var MONGODB_URI  = process.env.MONGODB_URI || "mongodb://heroku_8fr49fgr:vt8eolbdhac006h4he9qoniic1@ds011790.mlab.com:11790/heroku_8fr49fgr";
+
+// Use morgan logger for logging requests, parsing request body as JSON and making public static folder
+app.use(logger("dev"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static("public"));
 
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
-
-// Use morgan logger for logging requests
-app.use(logger("dev"));
-// Parse request body as JSON
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-// Make public a static folder
-app.use(express.static("public"));
-
-
 
 // Handlebars
 app.engine("handlebars", exphbs({ 
