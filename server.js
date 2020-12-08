@@ -5,13 +5,16 @@ var express  = require("express");
     mongoose = require("mongoose");
     cheerio  = require("cheerio");
     axios    = require("axios");
+  //var routes = require('./routes);
 
 // Port and express setup
 var PORT = 3000;
 var app  = express();
+//var PORT = process.env.PORT || 3001;
+
 
 // Configure middleware
-var MONGODB_URI  = process.env.MONGODB_URI || "mongodb://heroku_8fr49fgr:vt8eolbdhac006h4he9qoniic1@ds011790.mlab.com:11790/heroku_8fr49fgr";
+var MONGO_URI  = process.env.MONGO_URI || "mongodb://localhost:27017/articles";
 
 // Use morgan logger for logging requests, parsing request body as JSON and making public static folder
 app.use(logger("dev"));
@@ -20,7 +23,11 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connect(MONGO_URI, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
 // Handlebars
 app.engine("handlebars", exphbs({ 
@@ -29,6 +36,8 @@ app.engine("handlebars", exphbs({
 app.set("view engine", "handlebars");
 
 // Routes
+//app.use(routes);
+
 app.get('/', (req, res) => {
   res.render('index', { 
     title: 'Buzz-Worthy News!' 
